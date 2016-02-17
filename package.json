@@ -1,0 +1,20 @@
+{
+  "name": "netease",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "boot.js",
+  "scripts": {
+    "compile": "gulp compile",
+    "start": "electron boot.js"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^0.36.0",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.0",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-sequence": "^0.4.5",
+    "jshint": "^2.9.1",
+    "jshint-stylish": "^2.1.0",
+    "react": "^0.14.7"
+  }
+}
