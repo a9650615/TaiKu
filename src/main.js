@@ -6,10 +6,7 @@ var Electron = require('electron');
 //general modules
 
 
-
 //Main Class 
 var TaiKuApp = React.createClass({
-
-	
 
 });

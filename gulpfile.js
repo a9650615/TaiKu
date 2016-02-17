@@ -1,8 +1,11 @@
+var path = require('path');
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var sequence = require('gulp-sequence');
 var jshint = require('gulp-jshint');
 var shell = require('shelljs');
+var less = require('gulp-less');
+var newer = require('gulp-newer');
 var TaikuApp = require('electron-connect').server.create();
 
 var CURRENT_ENVIRONMENT = 'development';
@@ -20,13 +23,13 @@ gulp.task('watch', function() {
   gulp.watch([
     './build/TaiKu.bundled.js',
     './_index.html',
-    './src/public/css/**'
+    './build/css/**'
   ], TaikuApp.reload);
 
   // reload when styles are changed
-  /*gulp.watch([
+  gulp.watch([
     './src/public/less/**'
-  ], ['less']);*/
+  ], ['less']);
 });
 
 gulp.task('compile', function(){
@@ -35,6 +38,19 @@ gulp.task('compile', function(){
       stage: 0
     }))
     .pipe(gulp.dest('build'));
+});
+
+gulp.task('less', function() {
+  var dest = './build/css/';
+  return gulp
+    .src('./src/public/less/**/*.less')
+    .pipe(newer('./build/css/index.css'))
+    .pipe(less({
+      paths: [
+        path.join('./src/public/less/includes')
+      ]
+    }))
+    .pipe(gulp.dest(dest));
 });
 
 gulp.task('linter:src', function() {
