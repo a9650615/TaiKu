@@ -2,9 +2,32 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var sequence = require('gulp-sequence');
 var jshint = require('gulp-jshint');
+var shell = require('shelljs');
+var TaikuApp = require('electron-connect').server.create();
 
 var CURRENT_ENVIRONMENT = 'development';
 
+
+gulp.task('watch', function() {
+  TaikuApp.start();
+
+  // create a child process for webpack --watch
+  shell.exec('webpack --watch', {
+    async: true
+  });
+
+  // reload when files are changed
+  gulp.watch([
+    './build/TaiKu.bundled.js',
+    './_index.html',
+    './src/public/css/**'
+  ], TaikuApp.reload);
+
+  // reload when styles are changed
+  /*gulp.watch([
+    './src/public/less/**'
+  ], ['less']);*/
+});
 
 gulp.task('compile', function(){
   return gulp.src('src/**/*.{js,jsx}')
