@@ -34,9 +34,9 @@ gulp.task('watch', function() {
 
 gulp.task('compile', function(){
   return gulp.src('src/**/*.{js,jsx}')
-    .pipe($.babel({
+    .pipe($.babel(/*{
       stage: 0
-    }))
+    }*/))
     .pipe(gulp.dest('build'));
 });
 
