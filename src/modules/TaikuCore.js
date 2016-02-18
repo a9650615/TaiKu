@@ -1,7 +1,11 @@
 var Electron = require('electron');
 var Remote = Electron.remote;
-var EventEmitter = require('events').EventEmitter;
+var App = Remote.app;
 
+var EventEmitter = require('events').EventEmitter;
+/*
+ * Node Modules
+ */
 var Path = require('path');
 var Fs = require('fs');
 
@@ -17,7 +21,7 @@ var TaikuCore = function(){
 };
 
 /*
- *	--定義時有效，但實體化後消失--
+ *	--Block End--
  */
 Object.defineProperty( TaikuCore.prototype, 'title',{
 	enumerable : true,
@@ -36,7 +40,7 @@ TaikuCore.prototype =  Object.create(EventEmitter.prototype);//不知功用
 TaikuCore.constructor = TaikuCore;
 
 /*
- *	--定義時有效，但實體化後消失--
+ *	--Block End--
  */
 
 TaikuCore.prototype.getEnvInfo = function(){
@@ -48,10 +52,30 @@ TaikuCore.prototype.getEnvInfo = function(){
 
 TaikuCore.prototype.isDev = function(){
 	if(!this._envInfo){
-
+		this._envInfo = this.getEnvInfo();
 	}
 	return this._envInfo.env === 'development';
 };
+
+TaikuCore.prototype.isProduction = function(){
+	if(!this._envInfo){
+		this._envInfo = this.getEnvInfo();
+	}
+	return this._envInfo.env === 'production';
+};
+
+TaikuCore.prototype.getPackageInfo = function() {
+  var packageFilePath = Path.join(App.getAppPath(), 'package.json');
+  var packageInfo = Fs.readFileSync(packageFilePath, 'utf8');
+  return JSON.parse(packageInfo);
+};
+
+TaikuCore.prototype.getInfoData = function( filename ){
+	var DataPath = Path.join(App.getAppPath(), 'data', filename);
+	var fileInfo = Fs.readFileSync(DataPath, 'utf8');
+	return JSON.parse(fileInfo);
+}
+
 
 
 module.exports = new TaikuCore();

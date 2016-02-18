@@ -23,7 +23,8 @@ gulp.task('watch', function() {
   gulp.watch([
     './build/TaiKu.bundled.js',
     './_index.html',
-    './build/css/**'
+    './build/css/**',
+    './src/modules/**'
   ], TaikuApp.reload);
 
   // reload when styles are changed
