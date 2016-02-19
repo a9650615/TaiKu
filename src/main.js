@@ -16,6 +16,7 @@ import ReactDOM from 'react-dom';
 //import RaisedButton from 'material-ui/lib/raised-button';
 import {RaisedButton} from 'material-ui';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
 // Needed for onTouchTap
 // Can go away when react 1.0 release
 // Check this repo:
@@ -26,7 +27,8 @@ injectTapEventPlugin();
 //general modules
 let TaiKuCore = require('./modules/TaiKuCore');
 let Preference = require('./modules/Preference');
-
+let L10nManager = require('./modules/L10nManager');
+let _ = L10nManager.get.bind(L10nManager);
 /*
  * Not used 
  */
@@ -38,6 +40,7 @@ let Preference = require('./modules/Preference');
 
 //View compements
 import ToolbarContainer from './views/components/toolbar/container';
+import MenusContainer from './views/components/menus/container';
 
 //View Modules
 
@@ -46,24 +49,54 @@ import ToolbarContainer from './views/components/toolbar/container';
 let loadingPageDom = document.querySelector('.loading-page');
 
 //Main Class 
-var title = "87";
 
 class TaiKuApp extends React.Component {
-  
+  //wile mount
+  componentWillMount(){
+
+	this.state = {MenuOpen: false};
+	//load title 
+	this._initializeAppTitle();
+  }
+
   //Mount Done
   componentDidMount() {
   	this._initializeDefaultLanguage();
   }
 
-  _initializeDefaultLanguage(){
-  	let defaultLanguage = Preference.getPreference('default.language');
-  	if (defaultLanguage) {
-  	    L10nManager.changeLanguage(defaultLanguage);
-  	}
+  _initializeAppTitle() {
+    TaiKuCore.title = _('app_title_normal');
   }
 
+  _initializeDefaultLanguage(){
+	let defaultLanguage = Preference.getPreference('default.language');
+	if (defaultLanguage) {
+	    L10nManager.changeLanguage(defaultLanguage);
+	}
+  }
+
+  handleMenuToggle(){
+	this.setState({MenuOpen: !this.state.MenuOpen});
+  }
+
+  handleMenuClose() {this.setState({MenuOpen: false});}
+
   render() {
-    return <ToolbarContainer title={title}/>;
+	/* jshint ignore:start */
+    return (
+		<div className="root">
+		  <ToolbarContainer 
+		      title={TaiKuCore.title} 
+		      handleMenuToggle={this.handleMenuToggle.bind(this)}
+		      MenuOpen={this.state.MenuOpen}
+		      />
+		  <MenusContainer 
+			  MenuOpen={this.state.MenuOpen}
+			  MenuClose={this.handleMenuClose.bind(this)}
+		    />
+		</div>
+	);
+    /* jshint ignore:end */
   }
 }
 

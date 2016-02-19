@@ -15,9 +15,12 @@ let L10nManager = function(){
 	EventEmitter.call(this);
 
 	this._currentLanguage = 'zh-TW';
-
+  this.params = null;
 	//this.emit('language-initialized');
 }
+
+L10nManager.prototype = Object.create(EventEmitter.prototype);
+L10nManager.constructor = L10nManager;
 
 L10nManager.prototype.changeLanguage = function(newLanguage) {
   if (this._currentLanguage === newLanguage) {
@@ -30,15 +33,11 @@ L10nManager.prototype.changeLanguage = function(newLanguage) {
   }
 };
 
-L10nManager.prototype.init = function(){
-  var DataPath = Path.join(App.getAppPath(), 'src/locales', this._currentLanguage + '.json');
-  var fileInfo = Fs.readFileSync(DataPath, 'utf8');
-  this.params = JSON.parse(fileInfo);
-  return this;
-}
-
-L10nManager.prototype._ = function( ID ){
-  return this.params[ID];
+L10nManager.prototype.get = function( ID ){
+ var DataPath = Path.join(App.getAppPath(), 'src/locales', this._currentLanguage + '.json');
+ var fileInfo = Fs.readFileSync(DataPath, 'utf8');
+ this.params = JSON.parse(fileInfo);
+ return this.params[ID];
 }
 
 module.exports = new L10nManager();

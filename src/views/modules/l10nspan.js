@@ -1,5 +1,5 @@
 import React from 'react';
-var L10nManager = require('../../modules/L10nManager').init();
+var L10nManager = require('../../modules/L10nManager');
 
 
 class l10nspan extends React.Component{
