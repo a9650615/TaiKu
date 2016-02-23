@@ -1,3 +1,9 @@
 {
-	"app_title_normal" : "卡酷"
+	"app_title_normal" : "卡酷",
+	"menu_index": "探索音樂",
+	"menu_song_list": "尋找歌單",
+	"menu_about": "關於",
+	"about_title":"關於 卡庫 ",
+	"about_context":"2/18號開始開發",
+	"ok": "確認"
 }

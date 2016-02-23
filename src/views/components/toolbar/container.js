@@ -21,7 +21,7 @@ class ToolbarContainer extends React.Component{
   }
 
   handleLeftIconButtonClick(e) {
-	console.log(this.props.handleMenuToggle());//show
+	this.props.handleMenuToggle();//show
   }
 
   render() {

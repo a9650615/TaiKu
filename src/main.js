@@ -41,6 +41,7 @@ let _ = L10nManager.get.bind(L10nManager);
 //View compements
 import ToolbarContainer from './views/components/toolbar/container';
 import MenusContainer from './views/components/menus/container';
+import AboutContainer from './views/components/about/container';
 
 //View Modules
 
@@ -54,7 +55,10 @@ class TaiKuApp extends React.Component {
   //wile mount
   componentWillMount(){
 
-	this.state = {MenuOpen: false};
+	this.state = {
+		MenuOpen: false,
+		AboutOpen: false
+	};
 	//load title 
 	this._initializeAppTitle();
   }
@@ -78,12 +82,26 @@ class TaiKuApp extends React.Component {
   handleMenuToggle(){
 	this.setState({MenuOpen: !this.state.MenuOpen});
   }
-
+  
   handleMenuClose() {this.setState({MenuOpen: false});}
+  
+  //About 關閉
+  handleAboutClose(){
+	this.setState({AboutOpen: false});
+  }
+
+  _onLeftNavChange(type){
+	switch(type){
+		case 'menu_about':
+			this.setState({AboutOpen: true});
+		  break;
+	}
+	
+  }
 
   render() {
 	/* jshint ignore:start */
-    return (
+	return(
 		<div className="root">
 		  <ToolbarContainer 
 		      title={TaiKuCore.title} 
@@ -91,9 +109,13 @@ class TaiKuApp extends React.Component {
 		      MenuOpen={this.state.MenuOpen}
 		      />
 		  <MenusContainer 
+			  onChange={this._onLeftNavChange.bind(this)}
 			  MenuOpen={this.state.MenuOpen}
 			  MenuClose={this.handleMenuClose.bind(this)}
 		    />
+		  <AboutContainer 
+			open={this.state.AboutOpen}
+			AboutClose={this.handleAboutClose.bind(this)}/>
 		</div>
 	);
     /* jshint ignore:end */
@@ -104,11 +126,11 @@ class TaiKuApp extends React.Component {
 
 //var TaiKuApp = React.createClass({
 //	render: function() {
-    	/* jshint ignore:start */
-//    	return (){
-//    		<RaisedButton label="Default" />
-//    	};
-    	/* jshint ignore:end */
+  	/* jshint ignore:start */
+//	return (){
+//		<RaisedButton label="Default" />
+//	};
+  	/* jshint ignore:end */
 //	}
 //});
 
